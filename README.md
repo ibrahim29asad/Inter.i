@@ -28,3 +28,8 @@ AI Chatbot will have a generative AI to create a random interviewer
 Create a AI Chatbot that uses facial recognition to detect emotion to see if user is struggeling
 
 Will guide if they are stuck.
+
+
+
+To Create Transformer Model:
+https://www.youtube.com/watch?v=ISNdQcPhsts
