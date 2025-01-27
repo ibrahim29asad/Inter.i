@@ -1,9 +1,18 @@
-## Transformer model
-## Is the model that needs to be made
-
 import torch 
 import torch.nn as nn
 import math
+
+## Transformer model
+## Is the model that needs to be made
+
+# For Apple Use
+# CUDA is not supported on Mac and supports Nvidia
+# Therefore will need to use Apples: Metal Performance Model (MPS)
+# conda activate env_pytorch
+# conda install pytorch torchvision torchaudio -c pytorch-nightly
+# /Users/{user-name}/anaconda3/envs/env_pytorch/bin/python /Users/{user-name}/Desktop/Inter.i/main.py
+# #
+
 
 #Setup and Run the Enviromet
 # conda create -n env_pytorch python=3.10
@@ -16,7 +25,8 @@ import math
 # This creates a double embedding system per word which allows context to be added in
 # 
 
-# The following embedding is for the words - vector or list of size 512
+# INPUTS ONLY
+# The following embedding is for the words - vector or list of size 512  ---------- can do 256 if machine cannot handle it
 class InputEmbeddings(nn.Module):
 
     def __init__(self, d_model: int, vocab_size: int):  # the dimensions of the vector && how many words are in the vocabulary 
@@ -43,8 +53,27 @@ class PositionalEncoding(nn.Module):
         # create the vectors for the sequence length (Vector of Shape) so from seq_length to 1
         # this is the cosine and sin mathematical equations
         position = torch.arrange(0, seq_len, dtype = torch.flight).unsqueeze(1) 
+        div_term = torch.exp(torch.arange(0, d_model, 2).float() * (-math.log(10000.0)/d_model))
+        #Positioning Embedding with Sin and Cos formula, cosine is for odd position and sin is for even postions
+        # Apply Sin   ------- Even
+        # START STOP STEP 
+        pe[:, 0::2]= torch.sin(position* div_term)
+        # Apply Cos  -------- Odd
+        # START STOP STEP 
+        pe[:, 1::2]= torch.cos(position* div_term)
+
+        pe.unsqueeze(0) # (1, seq_len, d_model)
+
+        #Save the tensor with the Buffer
+        self.register_buffer('pe', pe)
+    
+    def forward(self, x):
+        x = x + (self.pe[:, :x.shape[1], :]).requires_grad_(False)
+        return self.dropout(x)
 
 
 
+print(torch.__version__)  # Check PyTorch version
+print(torch.backends.mps.is_available())  # Check if MPS is available
 age = 3
 print(f'tim is the age: {age}')
