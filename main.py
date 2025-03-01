@@ -9,7 +9,7 @@ import math
 # CUDA is not supported on Mac and supports Nvidia
 # Therefore will need to use Apples: Metal Performance Model (MPS)
 # conda activate env_pytorch
-# conda install pytorch torchvision torchaudio -c pytorch-nightly
+# conda install pytorch torchvision torchaudio -c pytorch
 # /Users/{user-name}/anaconda3/envs/env_pytorch/bin/python /Users/{user-name}/Desktop/Inter.i/main.py
 # #
 
@@ -62,18 +62,41 @@ class PositionalEncoding(nn.Module):
         # START STOP STEP 
         pe[:, 1::2]= torch.cos(position* div_term)
 
+        #Creates a batch of items or sentances for practicle use since you will have multiple sentances 
         pe.unsqueeze(0) # (1, seq_len, d_model)
 
-        #Save the tensor with the Buffer
+        #Save the tensor with the Buffer and along with the sate of the model
         self.register_buffer('pe', pe)
     
+
     def forward(self, x):
-        x = x + (self.pe[:, :x.shape[1], :]).requires_grad_(False)
+        #Postional encoding for every word in the sentance
+        x = x + (self.pe[:, :x.shape[1], :]).requires_grad_(False) # Model doesnt need to keep the position embedding so will not need to be saved after the state is done
         return self.dropout(x)
 
+#Layer Normalization 
+# add and Norm 
+# 
 
 
-print(torch.__version__)  # Check PyTorch version
-print(torch.backends.mps.is_available())  # Check if MPS is available
+
+
+#Equation for normailization 
+# <x j = gamm/beta
+#gamma= xj - Uj
+#alpha = ((Oj)^2   +    e )^.5 , e is epsilon
+class LayerNormalizaiton(nn.Module):
+
+# need epsilon since we need to make sure the denominatior isnt too small and 
+# allows for numerical stability as we have a limit on the actual funciton 
+
+    def __init__(self, eps: float = 10**-6) -> None:
+        super().__init__()
+        self.eps = eps
+        self.alpha = nn.Parameter(torch.ones(1)) # Multiply - gamma
+        self.bias = nn.Parameter(torch.zeros(1)) # added - beta
+    
+
+
 age = 3
 print(f'tim is the age: {age}')
