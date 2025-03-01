@@ -95,8 +95,25 @@ class LayerNormalizaiton(nn.Module):
         self.eps = eps
         self.alpha = nn.Parameter(torch.ones(1)) # Multiply - gamma
         self.bias = nn.Parameter(torch.zeros(1)) # added - beta
-    
 
+
+    def forward(self, x):
+        mean = x.mean(dim = -1, keepdim=True)
+        std = x.std(dim = -1, keepdim=True)
+        return self.alpha * (x - mean) / (std + self.eps) + self.bias
+
+
+class FeedForwardBlock(nn.Module):
+
+    def __init__(self, d_model: int, d_ff: int, dropout: float) -> None:
+        super().__init__()
+        self.linear_1 = nn.Linear(d_model, d_ff) # W1 and B1 - it already defines the bias as true
+        self.dropout = nn.Dropout(dropout)
+        self.linear_2 = nn.Linear(d_ff, d_model) # W2 and B2
+
+    def forward(self, x):
+        # (Batch, Seq_Len, d_model) --> (Batch, Seq_Len, d_ff) --> (Batch, Seq_Len, d_model)
+        return self.linear_2(self.dropout(self.dropout(torch.relu(self.linear_1(x)))))
 
 age = 3
 print(f'tim is the age: {age}')
