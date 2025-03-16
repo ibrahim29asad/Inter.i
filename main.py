@@ -113,7 +113,8 @@ class FeedForwardBlock(nn.Module):
         return self.linear_2(self.dropout(self.dropout(torch.relu(self.linear_1(x)))))
 
 #Multi-Head Attention
-# 3 inputs Query, Key, Value
+# 3 inputs Query, Key, Value  so it takes 1 input turn it into 3 inputs which then will get multiplied to turn into multiple heads "blocks"
+# then turning into the overal d_models heads and uses all the inputs heads and will turn into my output
 class MultiHeadAttentionBlock(nn.Module):
 
     def __init__(self, d_model: int, h: int, dropout: float) -> None:
@@ -129,9 +130,47 @@ class MultiHeadAttentionBlock(nn.Module):
 
         self.w_o = nn.Linear(d_model, d_model) #Wo
         self.dropout = nn.Dropout(dropout) 
-    
-    def forware(self, q, k, v, mask):
+
+    @staticmethod
+    def attention(query, key, value, mask, dropout: nn.Dropout):
+        d_k = query.shape[-1]
         
+        #matrix multiplication
+        attention_scores = (query @ key.transpose(-2, -1)) / math.sqrt(d_k)
+        if mask is not None:
+            # Write a very low value (indicating -inf) to the positions where mask == 0
+            attention_scores.masked_fill_(mask == 0, -1e9)
+        attention_scores = attention_scores.softmax(dim=-1) # (batch, h, seq_len, seq_len) # Apply softmax
+        if dropout is not None:
+            attention_scores = dropout(attention_scores)
+        # (batch, h, seq_len, seq_len) --> (batch, h, seq_len, d_k)
+        # return attention scores which can be used for visualization
+        return (attention_scores @ value), attention_scores
+
+    
+    def forward(self, q, k, v, mask):
+        query = self.w_q(q) # (Batch, Seq_len, d_model) --> (Batch, Seq_len, d_model)
+        key = self.w_k(k)   # (Batch, Seq_len, d_model) --> (Batch, Seq_len, d_model)
+        value = self.w_v(v) # (Batch, Seq_len, d_model) --> (Batch, Seq_len, d_model)
+        
+        # (Batch, Seq_len, d_model) --> (Batch, Seq_len, h, d_k) --> (Batch, h, seq_len, d_k)
+        query = query.view(query.shape[0], query.shape[1], self.h, self.d_k).transpose(1, 2)
+
+        key = key.view(key.shape[0], key.shape[1], self.h, self.d_k).transpose(1, 2)
+        value = value.view(value.shape[0], value.shape[1], self.h, self.d_k).transpose(1, 2)
+
+        #Calculates the Attention
+        x, self.attention_scores = MultiHeadAttentionBlock.attention(query, key, value, mask, self.dropout)
+        
+        # Combine all the heads together
+        # (batch, h, seq_len, d_k) --> (batch, seq_len, h, d_k) --> (batch, seq_len, d_model)
+        x = x.transpose(1, 2).contiguous().view(x.shape[0], -1, self.h * self.d_k)
+
+        # Multiply by Wo
+        # (batch, seq_len, d_model) --> (batch, seq_len, d_model)  
+        return self.w_o(x)
+
+
 
 
 age = 3
