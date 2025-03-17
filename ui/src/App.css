@@ -9,6 +9,7 @@
   height: 40vmin;
 }
 
+/* Start Page Logo*/
 .App-logo {
   height: 100%;
   width: auto;
@@ -16,6 +17,58 @@
   transform-origin: center center;
   animation: App-logo-spin infinite 3s linear;
 }
+
+
+
+/* Coding Page Logo*/
+
+.Coder-container {
+  border: 2vh solid #3537357c; 
+  border-radius: 1vh; 
+  padding: 1vh; 
+}
+
+.App-header-coder {
+  background-color: rgb(39, 36, 36);
+
+  min-height: 7vh;
+  
+  display: flex;
+
+
+  flex-direction: row;
+  justify-content: flex-start;
+  width: auto;
+  
+  padding-left: 2vw;
+  padding-top: 1vh;
+  align-items: center;
+ 
+  color: white;
+}
+
+.App-logo-Coder {
+  height: 100%;
+  background-color: rgb(39, 36, 36);
+  width: auto;
+  pointer-events: none;
+
+}
+
+.App-coder-main {
+  background-color: rgb(39, 36, 36);
+  /* background-color:rgb(242, 245, 238); */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  font-size: calc(10px + 2vmin);
+  color: white;
+  padding-right: 1vw;
+}
+
+
 
 @keyframes App-logo-spin {
   from {
@@ -25,6 +78,8 @@
     transform: rotate(360deg);
   }
 }
+
+
 
 
 

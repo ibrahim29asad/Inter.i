@@ -21,19 +21,17 @@ function App() {
         </div>
       </header>
 
-      <header className="App-coder-main">
+      <header className="App-header">
 
-    <div className="Coder-container">
       <Editor  
     width = "50vw"
     height= "70vh"
     theme="vs-dark"
     defaultLanguage={"python"}
     defaultValue="# write your code here"
-    />
-    </div>
-
     
+    />
+
 
 
       </header>

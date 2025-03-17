@@ -1,7 +1,8 @@
 import logo from './logo.svg';
 import './App.css';
 
-import { BsArrowsMove } from "react-icons/bs";
+import { BsArrowsMove } from "react-icons/bs";   // App Logo
+import { FaQuestion } from "react-icons/fa";     // info button
 
 function App() {
   return (
@@ -13,14 +14,20 @@ function App() {
         <p>
           Welcome to Inter.i
         </p>
+        
         <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+          className="Start-link-Button"
         >
-          Learn React
+          Start
         </a>
+
+        <a
+          className="Question-link-Button"
+        >
+          <FaQuestion size = {15}/>
+        </a>
+
+
       </header>
     </div>
   );
