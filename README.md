@@ -27,8 +27,12 @@ https://www.youtube.com/watch?v=ISNdQcPhsts
 
 
 Potentials for DataSets:
-
 Use Wiki API and Persona Data Sets - Gets Information and then can handle conversations
+
+
+For Website: 
+Use Monaco for Code Editor
+Use Judge Zero Api to run the code and its Test Cases
 
 
 change of Scope:

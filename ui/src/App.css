@@ -29,7 +29,7 @@
 
 
 .App-header {
-  background-color: grey;
+  background-color: rgb(39, 36, 36);
   /* background-color:rgb(242, 245, 238); */
   min-height: 100vh;
   display: flex;
@@ -44,3 +44,71 @@
   color: #61dafb;
 }
 
+.container {
+  display: flex;
+  justify-content: center; /* Centers horizontally */
+  align-items: center; /* Centers vertically */
+  flex-direction: column; /* Ensures elements stack properly */
+  height: 100vh; /* Ensures full height usage */
+  text-align: center; /* Ensures text elements are centered */
+}
+
+
+.Start-link-Button {
+	background-color: rgb(15, 14, 14);
+	/* color: rgb(89, 170, 236); */
+  color: whitesmoke;
+	height: 7vh; /* vw and vh are used for margins, padding, spacing, and widths/heights. */
+	width: 15vw;
+  margin-bottom: 1vh; /* adds space at the bottom of the button*/
+
+  
+	/* for text */
+  display: flex;
+  justify-content: center; /* Centers horizontally */
+  align-items: center; /* Centers vertically */
+  flex-direction: column; /* Ensures elements stack properly */
+	font-weight: bold;
+
+
+	cursor: pointer;
+	
+  /* for shape */
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.4s;
+}
+
+.Start-link-Button:hover {
+  background-color: rgb(50, 47, 47);
+}
+
+.Question-link-Button {
+	background-color: rgb(15, 14, 14);
+	/* color: rgb(89, 170, 236); */
+  color: whitesmoke;
+	height: 6vh; /* vw and vh are used for margins, padding, spacing, and widths/heights. */
+	width: 4vw;
+  margin-top: 1vh;
+  margin-bottom: 1vh; /* adds space at the bottom of the button*/
+
+  
+	/* for text */
+  display: flex;
+  justify-content: center; /* Centers horizontally */
+  align-items: center; /* Centers vertically */
+  flex-direction: column; /* Ensures elements stack properly */
+	
+	cursor: pointer;
+	
+  /* for shape */
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background-color 0.4s;
+}
+
+.Question-link-Button:hover {
+  background-color: rgb(50, 47, 47);
+}
