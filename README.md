@@ -35,6 +35,11 @@ Use Monaco for Code Editor
 Use Judge Zero Api to run the code and its Test Cases
 
 
+Technologies Used So Far:
+Python, PyTorch, React, Monaco (Microsoft Code Editor), axios (API Call Handler), RapidAI, Judge0 API
+Concepts: Machine Learning Models (Transformers), API Development
+
+
 change of Scope:
 ----- AI Chatbot will have a generative AI to create a random interviewer  -- IS TOO MUCH FOR MY MACHINE TO HANDLE
 ----- Create a AI Chatbot that uses facial recognition to detect emotion to see if user is struggeling -- IS TOO MUCH FOR MY MACHINE TO HANDLE
